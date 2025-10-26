@@ -1,0 +1,428 @@
+h2.underline::after 
+mobile-first. Monospace typographie, flat minimal design.
+   Includes dark/light theme toggling via [data-theme] on <html>. */
+
+/* === FOND DYNAMIQUE, OVERLAY SVG, NOISE GRAIN === */
+body {
+  /* Dégradé radial subtil bleu nuit vers violet/gris foncé */
+  background:
+    radial-gradient(ellipse 120% 100% at 0% 0%, #162447 0%, #3f2b56 60%, #232946 100%),
+    /* Overlay SVG motif points/coding, très discret */
+    url('data:image/svg+xml;utf8,<svg width="120" height="120" viewBox="0 0 120 120" fill="none" xmlns="http://www.w3.org/2000/svg"><g opacity="0.07"> <circle cx="10" cy="10" r="2" fill="white"/><circle cx="60" cy="60" r="2" fill="white"/><circle cx="110" cy="110" r="2" fill="white"/><circle cx="10" cy="110" r="2" fill="white"/><circle cx="110" cy="10" r="2" fill="white"/></g></svg>'),
+    /* Effet noise grain (texture granuleuse, subtil) */
+    url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVQIW2P4z8DwHwAFgwJ/lQvW2wAAAABJRU5ErkJggg==');
+  background-size: cover, 120px 120px, 300px 300px;
+  background-repeat: no-repeat, repeat, repeat;
+  background-position: left top, left top, left top;
+}
+
+[data-theme="dark"] body {
+  background-color: #050014;
+  background-image: url("https://www.transparenttextures.com/patterns/asfalt-light.png");
+  background-repeat: repeat;
+}
+
+[data-theme="light"] body {
+  background-color: #fffcfc;
+  background-image: url("https://www.transparenttextures.com/patterns/asfalt-dark.png");
+  background-repeat: repeat;
+}
+
+/* === ANIMATION FADE-IN UP SUR LES CARDS/BLOCS === */
+.card, .message, .media {
+  opacity: 0;
+  transform: translateY(50px);
+  transition: opacity 0.2s ease, transform 0.2s ease;
+}
+.card.visible, .message.visible, .media.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* === HOVER CARDS: élévation, ombre, glow, contour animé === */
+.card:hover {
+  transform: scale(1.015) translateY(-6px);
+  box-shadow: 0 16px 40px rgba(60,40,120,0.18), 0 0 12px 2px #7f5af0;
+  border: 1.5px solid #7f5af0;
+  outline: 0.5px solid #06b6d4;
+}
+
+/* === SOULIGNEMENT DÉGRADÉ ANIMÉ SOUS TITRE PRINCIPAL === */
+/* Soulignement dégradé animé sous les titres, persistant après le premier hover */
+h1, h2, h3 {
+  position: relative;
+  z-index: 1;
+}
+h1:not(#typewriter-h1)::after, h2::after, h3::after {
+  content: '';
+  display: block;
+  height: 4px;
+  width: 0;
+  margin: 6px 0 0 0;
+  border-radius: 2px;
+  background: linear-gradient(90deg, #06b6d4 0%, #7f5af0 100%);
+  transition: width 0.3s cubic-bezier(.4,0,.2,1);
+}
+h1.underline:not(#typewriter-h1)::after, h2.underline::after {
+  width: 40%;
+}
+h3:hover::after {
+  width: 10%;
+}
+
+/* === ESPACE ENTRE LES BLOCS/CARDS === */
+.grid, .box {
+  gap: 2rem;
+}
+.card, .media, .message {
+  margin-bottom: 2rem;
+}
+
+/* === ACCESSIBILITÉ === */
+.card:focus-within, .card:focus {
+  outline: 2px solid #06b6d4;
+}
+.media img.formation-logo {
+  width: 64px;
+  height: 64px;
+  object-fit: contain;
+  border-radius: 6px;
+  box-shadow: var(--shadow);
+  background: #fff;
+}
+
+/* === COMMENTAIRES === */
+/*
+  - Le fond combine un dégradé radial, un overlay SVG motif points (esprit coding), et une texture noise grain pour casser l'effet plat.
+  - Les cards/messages/media apparaissent avec une animation fade-in up lors du scroll (voir JS pour .visible).
+  - Sur hover, les cards sont mises en valeur par une élévation, ombre accentuée, glow bleu/violet et contour animé.
+  - Les titres principaux ont un soulignement dégradé animé au hover.
+  - Les espacements sont augmentés pour la lisibilité et l'élégance.
+  - Les styles sont accessibles (contraste, focus, alt sur images).
+*/
+
+:root{
+  --bg: #ffffff;
+  --text: #111827;
+  --muted: #6b7280;
+  --accent: #06b6d4;
+  --card: #f8fafc;
+  --shadow: 0 6px 18px rgba(16,24,40,0.06);
+  --radius: 10px;
+}
+
+[data-theme="dark"]{
+  --bg: #0b1220;
+  --text: #e6eef8;
+  --muted: #9aa8bd;
+  --accent: #7dd3fc;
+  --card: #071226;
+  --shadow: 0 8px 24px rgba(2,6,23,0.6);
+}
+
+html{box-sizing:border-box;scroll-behavior:smooth;font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, monospace;}
+*,*::before,*::after{box-sizing:inherit}
+body{margin:0;background:var(--bg);color:var(--text);line-height:1.5;font-size:16px;}
+*,*::before,*::after{box-sizing:inherit}
+body{margin:0;background:var(--bg);color:var(--text);line-height:1.5;font-size:16px}
+
+.site-header{position:sticky;top:0;background:var(--bg);z-index:40;border-bottom:1px solid rgba(0,0,0,0.04)}
+.topnav{display:flex;flex-wrap:wrap;align-items:center;gap:1rem;max-width:1100px;margin:0 auto;padding:0.75rem 1rem}
+.brand{font-weight:700;color:var(--text);text-decoration:none}
+.nav-links{list-style:none;margin:0;padding:0;display:flex;gap:0.75rem;align-items:center}
+.nav-links a{color:var(--muted);text-decoration:none;padding:0.4rem 0.6rem;border-radius:6px}
+.nav-links a[aria-current="page"]{color:var(--text);font-weight:600}
+.controls{margin-left:auto}
+
+.site-main{max-width:1100px;margin:1rem auto;padding:0 1rem}
+.hero{padding:2rem 0}
+.lead{color:var(--muted)}
+.btn{display:inline-block;background:var(--accent);color:#062024;padding:0.6rem 1rem;border-radius:8px;text-decoration:none}
+
+.grid{display:grid;gap:1rem}
+.projects-grid{grid-template-columns:repeat(1,1fr)}
+.skills-grid{grid-template-columns:repeat(1,1fr)}
+
+.card{background:var(--card);padding:1rem;border-radius:var(--radius);box-shadow:var(--shadow);transition:transform 180ms ease, box-shadow 180ms ease}
+.card:hover{transform:translateY(-6px);box-shadow:0 12px 30px rgba(2,6,23,0.12)}
+.project-card img{width:100%;height:auto;object-fit:cover;border-radius:6px}
+
+.timeline{padding-left:0}
+.timeline li{margin:0.5rem 0;padding:0.75rem;border-left:3px solid var(--accent);background:transparent}
+
+.contact-form{display:grid;gap:0.5rem;max-width:560px}
+.contact-form input,.contact-form textarea{padding:0.6rem;border-radius:6px;border:1px solid rgba(0,0,0,0.08);background:transparent;color:var(--text)}
+
+/* Improve contrast for form fields in dark theme */
+[data-theme="dark"] .contact-form input,
+[data-theme="dark"] .contact-form textarea{
+  /* slight lighter background than page for visibility */
+  background: rgba(255,255,255,0.03);
+  border: 1px solid rgba(255,255,255,0.08);
+  color: var(--text);
+}
+
+/* details/summary styling for clickable footer contact */
+details.footer-contact{border-radius:8px}
+details.footer-contact summary{
+  list-style:none;cursor:pointer;padding:0.6rem 0.8rem;border-radius:8px;background:var(--accent);color:#062024;display:inline-block}
+details.footer-contact summary::-webkit-details-marker{display:none}
+details .footer-contact-panel{margin-top:1rem;padding:1rem;border-radius:8px;background:var(--card);box-shadow:var(--shadow)}
+
+/* Animated slide for details panel: start collapsed */
+.footer-contact-panel{
+  height:0; /* animated via inline style from JS for precise height */
+  overflow:hidden;
+  opacity:0;
+  transition:height 320ms ease, opacity 220ms ease;
+}
+.footer-contact summary{outline-offset:4px}
+
+.site-footer{margin-top:2rem;padding:2rem 1rem;border-top:1px solid rgba(0,0,0,0.04)}
+.footer-inner{max-width:1100px;margin:0 auto;color:var(--muted)}
+
+/* === Hero Section Responsive === */
+.hero-content {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 2rem;
+  justify-content: center;
+}
+
+.hero-image {
+  width: 320px;
+  height: 320px;
+  object-fit: cover;
+  border-radius: 50%;
+  box-shadow: 0 8px 48px rgba(60,40,120,0.18);
+  background: #fff;
+  mask-image: radial-gradient(circle, black 85%, transparent 100%);
+}
+
+.hero-right {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+#weather-widget-container {
+  margin-top: 0.5rem;
+}
+
+.social-links {
+  display: flex;
+  gap: 1.5rem;
+  margin-top: 1rem;
+}
+
+.about-me {
+  padding: 2rem 0;
+  margin-top: 2rem;
+}
+
+.about-me .lead {
+  text-justify: auto;
+  margin: 1rem 0;
+}
+
+.projects-preview-link {
+  text-align:center;
+  margin-top: 1rem;
+}
+
+.footer-links {
+  margin-top: 1rem;
+}
+
+.footer-contact-info {
+  margin-top:1rem;
+  color:var(--muted)
+}
+
+@media (max-width: 768px) {
+  .hero-content {
+    flex-direction: column;
+    text-align: center;
+  }
+
+  .hero-image {
+    width: 280px;
+    height: 280px;
+  }
+  
+  .nav-links {
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+
+  .projects-preview {
+    display: none;
+  }
+}
+
+@media (min-width: 980px) {
+  .hero-image {
+    width: 380px;
+    height: 380px;
+  }
+}
+
+/* Accessibility helpers */
+a:focus{outline:3px solid color-mix(in srgb, var(--accent) 40%, transparent)}
+
+/* Formation logos inside parcours */
+.media {display:flex;align-items:center;gap:0.75rem;margin:0.75rem 0}
+.media img.formation-logo{width:64px;height:auto;border-radius:6px;box-shadow:var(--shadow);background:transparent}
+
+/* === Grille deux colonnes pour la section Parcours en desktop === */
+.parcours .grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 2rem;
+}
+@media (min-width: 980px) {
+  .parcours .grid {
+    grid-template-columns: 1fr 1fr;
+    align-items: start;
+  }
+  .parcours .grid > .card:first-child {
+    grid-column: 1;
+  }
+  /* Regroupe Formation et Personnel dans une colonne verticale à droite */
+  .parcours .right-col {
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+  }
+  .parcours .right-col > .card {
+    margin-bottom: 0;
+  }
+}
+
+
+
+/* details summary style tweak for footer */
+details.footer-contact[open] > .footer-contact-panel{display:block}
+
+/* === Carousel Project Preview === */
+.carousel {
+  position: relative;
+  max-width: 100%;
+  margin: 1rem auto;
+}
+.carousel-inner {
+  display: flex;
+  overflow: hidden; /* This will hide the non-active slides */
+  border-radius: var(--radius);
+}
+.carousel-wrapper {
+  display: flex;
+  transition: transform 0.4s cubic-bezier(.4,0,.2,1);
+}
+.carousel-item {
+  min-width: 100%;
+  flex-shrink: 0;
+  box-sizing: border-box;
+  padding: 0.25rem;
+}
+.carousel-item .card {
+  height: 100%; /* Ensure cards in carousel have same height */
+}
+.carousel-btn {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  background: color-mix(in srgb, var(--card) 80%, transparent);
+  backdrop-filter: blur(4px);
+  border: 1px solid color-mix(in srgb, var(--text) 8%, transparent);
+  color: var(--text);
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  cursor: pointer;
+  font-size: 1.2rem;
+  z-index: 10;
+}
+.carousel-btn:hover {
+  border-color: var(--accent);
+}
+.carousel-btn.prev {
+  left: 1rem;
+}
+.carousel-btn.next {
+  right: 1rem;
+}
+/* Hide buttons on mobile if they overlap too much */
+@media (max-width: 640px) {
+  .carousel-btn.prev { left: 0.5rem; }
+  .carousel-btn.next { right: 0.5rem; }
+}
+
+/* Disable hover lift effect for carousel cards */
+.carousel .card:hover {
+  transform: none;
+  box-shadow: var(--shadow);
+  border: 1.5px solid transparent;
+  outline: 0.5px solid transparent;
+}
+
+/* === Typewriter Effect === */
+#typewriter-h1 {
+  position: relative;
+  /* display: inline-block; */ /* or other appropriate display value */
+}
+
+#typewriter-h1::after {
+  content: '▋';
+  position: absolute;
+  right: -0.2em;
+  top: 0;
+  bottom: 0;
+  animation: blink 1s step-end infinite;
+  color: var(--accent);
+}
+
+#typewriter-h1.finished-typing::after {
+  animation: none;
+  content: '';
+}
+
+@keyframes blink {
+  from, to { opacity: 1; }
+  50% { opacity: 0; }
+}
+
+/* === Skills Section === */
+/* Styles moved to css/competences.css */
+
+.social-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  background-color: var(--card);
+  box-shadow: var(--shadow);
+  transition: transform 180ms ease, box-shadow 180ms ease;
+}
+
+.social-btn:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 8px 20px rgba(2,6,23,0.1);
+}
+
+/* Burger Menu */
+.burger-menu {
+  display: none;
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 0;
+  z-index: 1000;
+}
+
+.burger-menu svg {
+  stroke: var(--text);
+}

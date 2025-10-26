@@ -1,0 +1,7 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="700" viewBox="0 0 1200 700">
+  <rect width="1200" height="700" fill="#c7f9cc" rx="12"/>
+  <g fill="#052e16" font-family="monospace" font-size="48">
+    <text x="60" y="120">Projet 3</text>
+    <text x="60" y="180" font-size="28">Outil Z — maquette</text>
+  </g>
+</svg>

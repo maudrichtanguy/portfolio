@@ -1,0 +1,81 @@
+/* === Skills Section === */
+.skills-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 1.5rem;
+}
+
+.skill-card {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  padding: 1.5rem;
+  border: 1.5px solid transparent; /* Start with transparent border */
+  /* Combine ALL transitions for hover and scroll animations */
+  transition: opacity 0.3s ease, transform 0.3s ease, box-shadow 0.3s ease, border-color 0.3s ease, background-color 0.3s ease;
+  /* For staggered animation */
+  transition-delay: var(--animation-delay, 0ms);
+}
+
+.skill-logo {
+  width: 64px;
+  height: 64px;
+  margin-bottom: 1rem;
+  transition: transform 0.3s ease;
+}
+
+.skill-card h3 {
+  margin: 0.5rem 0;
+  color: var(--text);
+}
+
+.skill-badge {
+  padding: 0.25rem 0.6rem;
+  border-radius: 6px;
+  font-size: 0.8rem;
+  font-weight: 600;
+  margin-bottom: 1rem;
+  color: #0b1220; /* Dark text for better contrast on light badges */
+}
+
+/* Style badge based on parent card's data-level */
+.skill-card[data-level="avancé"] .skill-badge { background-color: #06b6d4; }
+.skill-card[data-level="intermédiaire"] .skill-badge { background-color: #7f5af0; }
+.skill-card[data-level="débutant"] .skill-badge { background-color: #9aa8bd; }
+.skill-card[data-level="encours"] .skill-badge { background-color: #FFB81D; }
+
+.skill-description {
+  font-size: 0.9rem;
+  color: var(--muted);
+}
+
+/* Hover animations */
+.skill-card:hover {
+  transform: scale(1.05) translateY(-5px);
+  box-shadow: 0 12px 35px rgba(2,6,23,0.5);
+}
+
+.skill-card:hover .skill-logo {
+  transform: rotate(5deg);
+}
+
+/* Set border color on hover based on skill level */
+.skill-card[data-level="avancé"]:hover { border-color: #06b6d4; }
+.skill-card[data-level="intermédiaire"]:hover { border-color: #7f5af0; }
+.skill-card[data-level="débutant"]:hover { border-color: #9aa8bd; }
+.skill-card[data-level="encours"]:hover { border-color: #FFB81D; }
+
+
+/* Responsive Grid */
+@media (min-width: 640px) {
+  .skills-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (min-width: 980px) {
+  .skills-grid {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}

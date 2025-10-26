@@ -1,0 +1,16 @@
+.projects-grid {
+  grid-template-columns: repeat(1, 1fr);
+}
+
+.project-card img {
+  width: 100%;
+  height: 160px;
+  object-fit: cover;
+  border-radius: 6px;
+}
+
+@media (min-width: 980px) {
+  .projects-grid {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
