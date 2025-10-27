@@ -56,16 +56,6 @@
     });
   });
 
-  // Simple contact form handler: prevent real submit and show a friendly message
-  document.querySelectorAll('.contact-form').forEach(form => {
-    form.addEventListener('submit', (e)=>{
-      e.preventDefault();
-      const name = (form.querySelector('input[name="name"]')||{}).value || '—';
-      alert(`Merci ${name}, votre message a été reçu (placeholder).`);
-      form.reset();
-    });
-  });
-
   // If the page was opened with #footer-contact or the contact link is clicked, open the details panel
   // Animated open/close for <details class="footer-contact"> panels
   function animateOpen(details){
